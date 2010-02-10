@@ -1,6 +1,5 @@
 //
 //  BPCoreDataDrivenTableViewController.m
-//  Skates
 //
 //  Created by Jon Olson on 2/9/10.
 //  Copyright 2010 Ballistic Pigeon, LLC. All rights reserved.
@@ -265,6 +264,13 @@
 }
 
 #pragma mark -
+#pragma mark Optional method to allow subclasses to prepare new objects
+
+- (void)prepareNewManagedObject:(NSManagedObject *)managedObject {
+	// Stub
+}
+
+#pragma mark -
 #pragma mark UI Actions
 
 - (IBAction)addEntity:(id)sender {
@@ -273,9 +279,28 @@
 	[viewController setManagedObjectContext:self.managedObjectContext];
 	[viewController setManagedObject:newObject];
 	[viewController setEditing:YES];
-	viewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:viewController action:@selector(save:)] autorelease];
+	viewController.navigationItem.hidesBackButton = YES;
+	viewController.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAdd:)] autorelease];
+	viewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:viewController action:@selector(create:)] autorelease];
 	[self.navigationController pushViewController:viewController animated:YES];
 	[viewController release];
+}
+
+- (void)cancelAdd:(id)sender {
+	UIViewController <BPManagedObjectInspectorViewController> *viewController = (UIViewController <BPManagedObjectInspectorViewController> *)[self.navigationController topViewController];
+	NSManagedObject *managedObject = [viewController managedObject];
+	
+	if ([managedObject isInserted]) {		
+		[self.managedObjectContext deleteObject:managedObject];
+		NSError *error = nil;
+		if (![self.managedObjectContext save:&error]) {
+			[[[[UIAlertView alloc] initWithTitle:@"Error Canceling Insert" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] autorelease] show];
+		}
+		else
+			[self.navigationController popViewControllerAnimated:YES];
+	}
+	else
+		[self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

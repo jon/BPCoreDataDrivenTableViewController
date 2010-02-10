@@ -1,6 +1,5 @@
 //
 //  BPCoreDataDrivenTableViewController.h
-//  Skates
 //
 //  Created by Jon Olson on 2/9/10.
 //  Copyright 2010 Ballistic Pigeon, LLC. All rights reserved.
@@ -34,6 +33,8 @@
 - (UITableViewCell *)cellForManagedObject:(NSManagedObject *)object inTableView:(UITableView *)tableView;
 - (void)configureCell:(UITableViewCell *)cell withManagedObject:(NSManagedObject *)object;
 
+- (void)prepareNewManagedObject:(NSManagedObject *)managedObject;
+
 - (IBAction)addEntity:(id)sender;
 
 @end
@@ -41,7 +42,9 @@
 @protocol BPManagedObjectInspectorViewController
 
 - (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+
 - (void)setManagedObject:(NSManagedObject *)managedObject;
+- (NSManagedObject *)managedObject;
 
 - (IBAction)save:(id)sender;
 
