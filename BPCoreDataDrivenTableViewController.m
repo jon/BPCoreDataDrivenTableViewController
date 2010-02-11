@@ -275,6 +275,7 @@
 
 - (IBAction)addEntity:(id)sender {
 	NSManagedObject *newObject = [NSEntityDescription insertNewObjectForEntityForName:[self managedEntityName] inManagedObjectContext:self.managedObjectContext];
+	[self prepareNewManagedObject:newObject];
 	UIViewController <BPManagedObjectInspectorViewController> *viewController = (UIViewController <BPManagedObjectInspectorViewController> *)[[[self inspectorClass] alloc] init];
 	[viewController setManagedObjectContext:self.managedObjectContext];
 	[viewController setManagedObject:newObject];
