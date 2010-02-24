@@ -64,7 +64,12 @@
 		NSFetchRequest *fetchRequest = [[[NSFetchRequest alloc] init] autorelease];
 		[fetchRequest setEntity:[self entityDescription]];
 		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:[self defaultSortKey] ascending:YES];
-		[fetchRequest setSortDescriptors:A(sortDescriptor)];
+		if ([self defaultSectionKey]) {
+			NSSortDescriptor *sectionSort = [[NSSortDescriptor alloc] initWithKey:[self defaultSectionKey] ascending:YES];
+			[fetchRequest setSortDescriptors:A(sectionSort, sortDescriptor)];
+		}
+		else
+			[fetchRequest setSortDescriptors:A(sortDescriptor)];
 		
 		self.fetchedResultsController = [[[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:[self defaultCacheName]] autorelease];
 	}
