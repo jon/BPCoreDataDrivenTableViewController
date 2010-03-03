@@ -127,6 +127,13 @@
 }
 
 #pragma mark -
+#pragma mark Rotation is cool with ushort
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+	return YES;
+}
+
+#pragma mark -
 #pragma mark UITableViewDelegate and UITableViewDataSource implementation
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
