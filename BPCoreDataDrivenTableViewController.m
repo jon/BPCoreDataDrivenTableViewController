@@ -310,10 +310,10 @@
 			[[[[UIAlertView alloc] initWithTitle:@"Error Canceling Insert" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] autorelease] show];
 		}
 		else
-			[self.navigationController popViewControllerAnimated:YES];
+			[self.navigationController popToViewController:self animated:YES];
 	}
 	else
-		[self.navigationController popViewControllerAnimated:YES];
+		[self.navigationController popToViewController:self animated:YES];
 }
 
 @end
